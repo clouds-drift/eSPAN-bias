@@ -13,4 +13,8 @@ The eSPAN-bias scripts provides the analysis of bias calculation based on bigwig
 * cal_bias.R: Calculate read coverage bias for each sample
 * normalize_bias.R: Normalize the eSPAN bias against the BrdU IP bias to exclude the background effects in replication
 * draw_bias.R: Draw plot for bias results and group samples by user’s specification
+Example data from GSE112522 are deposited in folder 'example_data' for testing. Annotation files are deposited in folder 'annotation',including:
+- saccer3_G1_origin.bed, yeast early origins
+- saccer3_G2_origin.bed, yeast late origins
+- saccer3_TSS.bed, yeast gene TSS
 
