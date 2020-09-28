@@ -15,9 +15,13 @@ The eSPAN-bias scripts provides the analysis of bias calculation based on bigwig
 * draw_bias.R: Draw plot for bias results and group samples by user’s specification
 
 Some example data from GSE112522 are deposited in folder 'example_data' for testing. Annotation files are deposited in folder 'annotation',including:
+
 saccer3_G1_origin.bed, yeast early origins
+
 saccer3_G2_origin.bed, yeast late origins
+
 saccer3_TSS.bed, yeast gene TSS
+
 ***
 ### 1. Rscript cal_bias.R -h
 ```
@@ -63,5 +67,6 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 
 ##### Details:
 * ‘--method’ can choose to use either partition or log2 ration method for bias calculation. Partition method is recommended, since it can scale the bias to (-1, 1).
+![partition](./gr)
 
 
