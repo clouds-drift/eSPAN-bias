@@ -72,8 +72,8 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 |**(W+C)/(W-C)**|**log2(W/C)**|
 
 * ‘--threshold’ can filter unreliable regions with low coverage by setting a proper coverage threshold. 
-|![threshold0](./graph/th0_dpb3_heatmap.png)|
-|:--:|
-|**threshold 0**|
+| aa  |
+|:--: |
+|**t**|
 
 
