@@ -67,7 +67,7 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 
 ##### Details:
 * ‘--method’ can choose to use either partition or log2 ration method for bias calculation. Partition method is recommended, since it can scale the bias to (-1, 1).
-|<img src='./graph/partition.jpg' height="300" width="300">|<img src="./graph/logRatio.jpg" width="300" height="300" alt='logRatio'/>|
+|![Partition](./graph/partition.jpg | width=300)|![log2Ratio](./graph/logRatio.jpg | width=300)|
 |:--:|:--:|
 |**(W+C)/(W-C)**|**log2(W/C)**|
 
