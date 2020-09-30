@@ -68,18 +68,10 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 ##### Details:
 * ‘--method’ can choose to use either partition or log2 ration method for bias calculation. Partition method is recommended, since it can scale the bias to (-1, 1).
 
-| ![Partition](./graph/partition.jpg) | <img src="./graph/logRatio.jpg" width="300" height="300" /> |
+| <img src="./graph/partition.jpg" width="300" height="300"/> | <img src="./graph/logRatio.jpg" width="300" height="300" /> |
 | :--: | :--: |
 | **(W+C)/(W-C)** | **log2(W/C)** |
 
 * ‘--threshold’ can filter unreliable regions with low coverage by setting a proper coverage threshold. 
 
-| aa  |
-| :--: |
-| **t** |
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
 
