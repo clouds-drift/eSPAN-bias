@@ -18,10 +18,10 @@ opt.p=add_option(opt.p,c("--group","-g"),type="character",
                  help="Group label for samples. Sample with same group label will be plotted in average. (Optional)
 \t\tGroup label should be joined by ','. Length of group label should be same as signal files. 
 \t\tIf not provide, each sample will be plotted.")
-opt.p=add_option(opt.p,c("--interval"),type="logical", default=T,
-                 help="When group label is specified, this flag is used to decide whether to plot the confidence interval for each group. (Optional)")
-opt.p=add_option(opt.p,c("--legendNcol"),type="numeric",default=2,
-                 help="Number of columns for legend showing. (Optional, default=2)")
+opt.p=add_option(opt.p,c("--interval"),type="logical", default=F,
+                 help="When group label is specified, this flag is used to decide whether to plot the confidence interval for each group. (Optional,default=F)")
+opt.p=add_option(opt.p,c("--legendNcol"),type="numeric",default=1,
+                 help="Number of columns for legend showing. (Optional, default=1)")
 opt.p=add_option(opt.p,c("--xlab"),type="character",default="replication origin",
                  help="X-axis labels. (Optional)")
 opt.p=add_option(opt.p,c("--ylab"),type="character",default="Bias",
@@ -68,4 +68,10 @@ draw_profiles(sig.file=sig.file, graph.file=graph.file,
               interval = opt$interval,
               legend.ncol = opt$legendNcol,
               xlab= opt$xlab, ylab= opt$ylab,
-              width=opt$width, height=opt$height,yMin=opt$ymin,yMax=opt$ymin,y.breaks=opt$ybreaks)
+              width=opt$width, height=opt$height,yMin=opt$ymin,yMax=opt$ymax,y.breaks=opt$ybreaks)
+cat("Draw heatmap...\n")
+mat.file=sub("\\.txt$","\\.xlsx",sig.file)
+heatmap.file=sub("\\..+$","_heatmap.pdf",graph.file)
+draw_heatmap(mat.file=mat.file,graph.file= heatmap.file, 
+                      zMin=-1, zMax=1,smooth=NA,fill=NA, my.color=c("blue","white","red"), ncolor=100, 
+                      sort=FALSE,show_rownum=100,show_colnum=20,width=6,height=8,cluster_rows=F,cluster_cols=F)
