@@ -80,3 +80,10 @@ Options:
 
 In this example, each row is an aligned replication origin and all origins are sorted from low to high replication efficiency. When setting the threshold=30, we only calculate the bias for origins of enough coverage and leave the low efficent origins blank. In this way, we get less but more reliable information in the genome-wide. 
 
+* '--smooth' can smooth the matrix by averaging each bin from its flanking n bins. You'll consider it when the '--bin' is very small and the signal is noisy.
+
+|<img src='./graph/th30_sm0_profile.jpg' width='300' height='300'/> | <img src='./graph/th30_sm5_profile.jpg' width='300' height='300' /> |
+|:--:|:--:|
+|**smooth=0**|**smooth=5**|
+
+
