@@ -74,7 +74,7 @@ Options:
 
 * ‘--threshold’ can filter unreliable regions with low coverage by setting a proper coverage threshold and please set it based on your sequencing depth.
 
-| <img src="./graph/th0_dpb3_heatmap.png" width="300" height="500"/> | <img src="./graph/th30_dpb3_heatmap.png" width="300" height="500" /> |
+| <img src="./graph/th0_dpb3_heatmap.png" width="300" height="400"/> | <img src="./graph/th30_dpb3_heatmap.png" width="300" height="400" /> |
 | :--: | :--: |
 | **threshold=0** | **threshold=30** |
 
@@ -181,6 +181,16 @@ Options:
         --ybreaks=YBREAKS
                 Y-axis breaks value. (Optional, default=NA)
 ```
+
+`Rscript draw_bias.R -s 'bias_matrix/GSM3072013_y925_WT_BrdU.txt , bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, bias_matrix/GSM3072030_y1436_dpb3_BrdU.txt , bias_matrix/GSM3072038_y1439_dpb3_H3K4me3_eSPAN.txt' -p bias,bias,bias,bias -o 'all_bias_group.ppt' -g BrdU,H3K4me3,BrdU,H3K4me3 --interval=T`
+
+##### Output:
+*all_bias_group.pptx*,  Plots of bias profile.
+*all_bias_group_heatmap.pdf*, Plots of bias heatmap.
+
+##### Details:
+Group the profiles and plot the average signal and variation.
+
 
 
 
