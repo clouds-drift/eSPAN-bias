@@ -72,11 +72,11 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 | :--: | :--: |
 | **(W+C)/(W-C)** | **log2(W/C)** |
 
-* ‘--threshold’ can filter unreliable regions with low coverage by setting a proper coverage threshold. 
+* ‘--threshold’ can filter unreliable regions with low coverage by setting a proper coverage threshold and please set it based on your sequencing depth.
 
 | <img src="./graph/th0_dpb3_heatmap.png" width="300" height="500"/> | <img src="./graph/th30_dpb3_heatmap.png" width="300" height="500" /> |
 | :--: | :--: |
 | **threshold=0** | **threshold=30** |
 
-In this example, each row is an aligned replication origin and all origins are sorted from low to high replication efficiency. When setting the threshold=30, we only calculate the bias for origins of enough coverage and leave the low efficent origins blank.
+In this example, each row is an aligned replication origin and all origins are sorted from low to high replication efficiency. When setting the threshold=30, we only calculate the bias for origins of enough coverage and leave the low efficent origins blank. In this way, we get less but more reliable information in the genome-wide. 
 
