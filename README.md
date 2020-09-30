@@ -61,9 +61,9 @@ Options:
 ```
 ` Rscript cal_bias.R -w example_data/GSM3072025_y929_WT_H3K4me3_eSPAN/GSM3072025_y929_WT_H3K4me3_eSPAN_plus.bw -c example_data/GSM3072025_y929_WT_H3K4me3_eSPAN/GSM3072025_y929_WT_H3K4me3_eSPAN_minus.bw -r annotation/saccer3_G1_origin.bed`
 ##### Output:
-bw_bias/GSM3072025_y929_WT_H3K4me3_eSPAN_partion.bw, genomwide bias signal.
-bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.xlsx, bias matrix surrounding the G1 origins.
-bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surrounding the G1 origins.
+*bw_bias/GSM3072025_y929_WT_H3K4me3_eSPAN_partion.bw*, genomwide bias signal.
+*bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.xlsx*, bias matrix surrounding the G1 origins.
+*bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt*, average bias profile surrounding the G1 origins.
 
 ##### Details:
 * ‘--method’ can choose to use either partition or log2 ration method for bias calculation. Partition method is recommended, since it can scale the bias to (-1, 1).
