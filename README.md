@@ -78,4 +78,5 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 | :--: | :--: |
 | **threshold=0** | **threshold=30** |
 
+In this example, each row is an aligned replication origin and all origins are sorted from low to high replication efficiency. When setting the threshold=30, we only calculate the bias for origins of enough coverage and leave the low efficent origins blank.
 
