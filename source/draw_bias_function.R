@@ -1,4 +1,4 @@
-required.pack = c("openxlsx","ggplot2","officer","rvg","plyr")
+required.pack = c("openxlsx","ggplot2","plyr","pheatmap","RColorBrewer")
 for(p in required.pack){
   sig=suppressMessages(require(p,character.only = TRUE))
   if(!sig){stop(paste("package",p,"needed!"))}
@@ -128,29 +128,189 @@ draw_profiles=function(sig.file, graph.file, sig.class=c(),group=c(),interval=F,
   g2plot.list=lapply(1:length(data.list),
                      function(x){plot_profile(data.list[[x]],param.list[[x]])})
   if(grepl("\\.ppt$|\\.pptx$",graph.file)){
-    graph.file=sub("\\.ppt$",".pptx",graph.file)
-    graph2file(g2plot.list,graph.file,width,height)
+    graph2pptx(g2plot.list,graph.file,width=width,height=height)
   }else if(grepl("\\.pdf",graph.file)){
     pdf(graph.file,width=width,height=height)
-    par(mai=c(2,2,2,2))
+    #par(mai=c(2,2,2,2))
     lapply(g2plot.list,print)
     dev.off()
   }
 }
 
-graph2file=function(g2plot.list,graph.file,width=NULL,height=NULL){
+##list of ggplot objects to pptx
+graph2pptx=function(g2plot.list,graph.file,width=NULL,height=NULL,picture=F){
   library("officer")
   library("rvg")
   if(!dir.exists(dirname(graph.file))){dir.create(dirname(graph.file),recursive = T)}
+  if(grepl("\\.ppt$|\\.pptx$",graph.file)){
+    graph.file=sub("\\.ppt$",".pptx",graph.file)
+  }else{
+    stop("Only support .pptx file!\n")
+  }
   
   my.pres=read_pptx()
   for(i in  1:length(g2plot.list)){
-    my.pres=add_slide(my.pres,layout = "Title and Content", master = "Office Theme")
-    my.pres=ph_with(my.pres, value=dml(ggobj=g2plot.list[[i]]),
-                    location = ph_location(width=width,height=height))
+    my.pres=add_slide(my.pres)
+    if(picture){##export as picture of 300dpi
+      my.pres=ph_with(my.pres,value=g2plot.list[[i]],location = ph_location(width=width,height=height),res=300)
+    }else{
+      my.pres=ph_with(my.pres,value=dml(ggobj=g2plot.list[[i]]),location = ph_location(width=width,height=height))
+      #my.pres=ph_with(my.pres,value=g2plot.list[[i]],location = ph_location(width=width,height=height)) ##not editable
+    }
   }
   print(my.pres, target = graph.file)
 }
+
+##Description:
+##  Draw heatmap for aligned reads density.
+##Args:
+##  mat.file, files of reads density matrix.
+##  graph.dir, output dir
+##  my.clust, a list of clustering object
+draw_heatmap=function(mat.file, graph.file, 
+                      zMin=NA, zMax=NA,zRange=c(0,1),smooth=NA,fill=NA, my.color=NA, ncolor=100, 
+                      sort=FALSE,show_rownum=1,show_colnum=1,width=NA,height=NA,...){
+  library("openxlsx")
+  library("pheatmap")
+  library("RColorBrewer")
+  
+  obj.list=c()
+  for(i in 1:length(mat.file)){
+    cat(i,"loading data of ")
+    if(is.matrix(mat.file[[i]])){
+      #mat.list[[i]]=mat.file[[i]]
+      plot.mat=mat.file[[i]]
+      #names(mat.list)[i]=names(mat.file)[[i]]
+      plot.name=names(mat.file)[[i]]
+    }else if(is.data.frame(mat.file[[i]])){
+      plot.mat=mat.file[[i]]
+      plot.name=names(mat.file)[[i]]
+    }else if(is.vector(mat.file[[i]]) & length(mat.file[[i]])==1){
+      if(file.exists(mat.file[[i]])){
+        if(grepl("\\.xlsx$", mat.file[[i]])){
+          plot.mat=read.xlsx(mat.file[[i]],colNames = T, rowNames = T)
+          plot.name=sub("(\\.mat)*\\.xlsx$", "", basename(mat.file[[i]]))
+        }else{
+          plot.mat=read.table(mat.file[[i]], header = T, sep="\t", quote = "\"", stringsAsFactors = F)
+          plot.name=sub("\\..*$", "", basename(mat.file[[i]]))
+        }
+      }else{
+        stop(paste(i,mat.file[[i]],"not exists!\n"))
+      }
+    }else{
+      stop(paste(i,names(mat.file)[i],"is not a matrix!\n"))
+    }
+    cat(plot.name,"\n")
+    
+    ##scale in row and remove NAN rows
+    #plot.mat=t(scale(t(plot.mat))) ##scale in row
+    remove.ind=which(apply(plot.mat, 1, function(x){all(is.nan(x))}))
+    if(length(remove.ind)>0){
+      cat(paste(rownames(plot.mat)[remove.ind], collapse = ","), "removed because of NaN\n")
+      plot.mat=plot.mat[-c(remove.ind), ]
+    }
+    ##set zMin and zMax
+    if(is.na(zMin) | is.na(zMax)){
+      #row.min=apply(plot.mat, 1, function(x){quantile(x, zRange[1], na.rm=TRUE)})
+      #row.max=apply(plot.mat, 1, function(x){quantile(x, zRange[2], na.rm=TRUE)})
+      #my.range=c(quantile(row.min,0.1,na.rm=T), quantile(row.max,0.9,na.rm=T))
+      vmin=max(min(unlist(plot.mat),na.rm=T), mean(unlist(plot.mat),na.rm=T)-2*sd(unlist(plot.mat),na.rm=T))
+      vmax=min(max(unlist(plot.mat),na.rm=T), mean(unlist(plot.mat),na.rm=T)+2*sd(unlist(plot.mat),na.rm=T))
+      my.range=c(vmin,vmax)
+    }
+    if(is.na(zMin)){zMin=my.range[1]}
+    if(is.na(zMax)){zMax=my.range[2]}
+    ##sort the mat by row average
+    if(!is.na(smooth)){ plot.mat=apply(plot.mat, 1, function(x){rollapply(x, width=2*smooth, function(y){mean(y,na.rm=T)})})}
+    if(!is.na(fill)){plot.mat[is.na(plot.mat)]=fill} ##fill NA
+    if(sort==T){
+      cat("sorting the matrix...\n")
+      w1=apply(abs(plot.mat), 1, function(x){mean(x,na.rm=T)})
+      w2=apply(abs(plot.mat), 1, function(x){sd(x,na.rm = T)})
+      w2[w2==0]=NA
+      w2[is.na(w2)]=min(w2,na.rm = T)
+      w=w1
+      #w1-w2
+      #w1*(w2)
+      plot.mat=plot.mat[order(w, decreasing = T),]
+    }
+    plot.mat[plot.mat > zMax]=zMax
+    plot.mat[plot.mat < zMin]=zMin
+    ##set color. my.color=c("green", "black", "red")
+    if(is.na(my.color[1])){
+      my.color=colorRampPalette(rev(brewer.pal(n = 7, name ="RdYlBu")))(ncolor)
+    }else{
+      if(all(grepl("^#",my.color))){
+        ##keep color
+      }else{
+        my.color=colorRampPalette(my.color)(ncolor)
+      }
+    }
+    if((show_rownum >=0)&(show_rownum <= 1)){
+      show_rownum=nrow(plot.mat)*show_rownum
+    }
+    if(show_rownum>1){
+      cut=ceiling(nrow(plot.mat)/show_rownum)
+      show.ind=seq(cut,nrow(plot.mat),by=cut)
+      tmp.name=rownames(plot.mat)[show.ind]
+      plot.mat=as.matrix(plot.mat)
+      rownames(plot.mat)=rep("",nrow(plot.mat))
+      rownames(plot.mat)[show.ind]=tmp.name
+    }
+    if((show_colnum >=0)&(show_colnum <= 1)){
+      show_colnum=ncol(plot.mat)*show_colnum
+    }
+    if(show_colnum>1){
+      cut=ceiling(ncol(plot.mat)/show_colnum)
+      show.ind=seq(cut,ncol(plot.mat),by=cut)
+      tmp.name=colnames(plot.mat)[show.ind]
+      plot.mat=as.matrix(plot.mat)
+      colnames(plot.mat)=rep("",ncol(plot.mat))
+      colnames(plot.mat)[show.ind]=tmp.name
+    }
+    my.break=seq(zMin, zMax, length.out = ncolor+1)
+    #cat(i,"draw",plot.name,"...\n")
+      p.obj=pheatmap(plot.mat, 
+                     color=my.color,
+                     breaks=my.break,
+                     border_color = "NA",
+                     main = paste(nrow(plot.mat),"rows for",plot.name, sep=" "),
+                     width=width,height=height,
+                     ...)
+      #gg=as.ggplot(p.obj)
+      #gg.list[[i]]=gg
+      #names(gg.list)[i]=plot.name
+      #if(i==1){graph2ppt(x=p.ggplot,file=graph.file,append=F,vector.graphic=F,width=width,height=height)}else{graph2ppt(x=p.ggplot,file=graph.file,append=T,vector.graphic=F,width=width,height=height)}
+      obj.list[[i]]=p.obj
+      names(obj.list)[i]=plot.name
+  }
+  
+  ##export to file
+  if(grepl("\\.ppt",basename(graph.file))){
+    if(!dir.exists(dirname(graph.file))){dir.create(dirname(graph.file),recursive = T)}
+    library('ggplotify')
+    gg.list=lapply(obj.list, as.ggplot)
+    names(gg.list)=names(obj.list)
+    graph2pptx(gg.list,graph.file, width=width, height=height, picture=T)
+  }else if(grepl("\\.pdf",basename(graph.file))){
+    if(!dir.exists(dirname(graph.file))){dir.create(dirname(graph.file),recursive = T)}
+    pdf(graph.file,width=width,height=height,onefile = T,bg="white")
+    #par(mai=c(10,10,10,10))
+    lapply(obj.list,function(x){plot(x[[4]])}) ##plot gtable object
+    dev.off()
+  }else{
+    if(!dir.exists(graph.file)){dir.create(graph.file,recursive = T)}
+    for(i in 1:length(obj.list)){
+      jpeg(filename =file.path(graph.file,paste(names(obj.list)[i],".jpg",sep="")),res=300)
+      print(obj.list[[i]])
+      dev.off()
+    }
+  }
+    
+  result=list(obj.list)
+  return(result)
+}
+
 
 summarySE=function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
                       conf.interval=0.95, .drop=TRUE) {
