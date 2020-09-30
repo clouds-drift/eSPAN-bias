@@ -77,6 +77,8 @@ bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, average bias profile surroundi
 <figure class='image'><img src="./graph/partition.jpg" width="300" height="300" alt='partition'/></figure>
 <figure class='image'><img src="./graph/logRatio.jpg" width="300" height="300" alt='logRatio'/></figure>
 </div>
+<div align='center'>
 <figurecaption>(W+C)/(W-C)</figurecaption>
 <figurecaption>log2(W/C)</figurecaption>
+</div>
 
