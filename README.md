@@ -120,7 +120,9 @@ Options:
 
 ##### Output:
 *bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.xlsx*, Normalized bias matrix.
+
 *bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.txt*, Normalized bias profile.
+
 *my_norm_bias_mat.xlsx*, Summary of the normalization.
 
 ##### Details:
