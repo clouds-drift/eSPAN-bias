@@ -119,9 +119,9 @@ Options:
 -c BrdU,H3K4me3_eSPAN --control=BrdU --target=H3K4me3_eSPAN`
 
 ##### Output:
-*bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.xlsx*,  Normalized bias matrix.
-*bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.txt*,   Normalized bias profile.
-*my_norm_bias_mat.xlsx*,        Summary of the normalization.
+*bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.xlsx*, Normalized bias matrix.
+*bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.txt*, Normalized bias profile.
+*my_norm_bias_mat.xlsx*, Summary of the normalization.
 
 ##### Details:
 Normalize the eSPAN bias against the BrdU-IP-ssSeq bias.
@@ -191,6 +191,8 @@ Options:
 ##### Details:
 Group the profiles and plot the average signal and variation.
 
-
+| <img src="./graph/all_bias.jpg" width="300" height="300"/> | <img src="./graph/all_bias_group.jpg" width="300" height="300" /> |
+| :--: | :--: |
+| **Bias for each sample** | **Bias for BrdU group and eSPAN group** |
 
 
