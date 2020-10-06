@@ -36,6 +36,12 @@ opt.p=add_option(opt.p,c("--ymax"),type="numeric",default=NA,
                  help="Y-axis maximum value. (Optional, default=NA)")
 opt.p=add_option(opt.p,c("--ybreaks"),type="numeric",default=NA,
                  help="Y-axis breaks value. (Optional, default=NA)")
+opt.p=add_option(opt.p,c("--xmin"),type="numeric",default=NA,
+                 help="X-axis minimum value. (Optional, default=NA)")
+opt.p=add_option(opt.p,c("--xmax"),type="numeric",default=NA,
+                 help="X-axis maximum value. (Optional, default=NA)")
+opt.p=add_option(opt.p,c("--xbreaks"),type="numeric",default=NA,
+                 help="X-axis breaks value. (Optional, default=NA)")
 opt=parse_args(opt.p)
 if(is.null(opt$signal)){print_help(opt.p);stop()}
 print(opt)
@@ -68,7 +74,9 @@ draw_profiles(sig.file=sig.file, graph.file=graph.file,
               interval = opt$interval,
               legend.ncol = opt$legendNcol,
               xlab= opt$xlab, ylab= opt$ylab,
-              width=opt$width, height=opt$height,yMin=opt$ymin,yMax=opt$ymax,y.breaks=opt$ybreaks)
+              width=opt$width, height=opt$height,
+              yMin=opt$ymin,yMax=opt$ymax,y.breaks=opt$ybreaks,
+              xMin=opt$xmin,xMax=opt$xmax,x.breaks=opt$xbreaks)
 cat("Draw heatmap...\n")
 mat.file=sub("\\.txt$","\\.xlsx",sig.file)
 heatmap.file=sub("\\..+$","_heatmap.pdf",graph.file)
