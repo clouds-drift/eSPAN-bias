@@ -184,6 +184,15 @@ Options:
 
         --ybreaks=YBREAKS
                 Y-axis breaks value. (Optional, default=NA)
+                
+        --xmin=XMIN
+                X-axis minimum value. (Optional, default=NA)
+                
+        --xmax=XMAX
+                X-axis maximum value. (Optional, default=NA)
+
+        --xbreaks=XBREAKS
+                X-axis breaks value. (Optional, default=NA)
 ```
 
 `Rscript draw_bias.R -s 'bias_matrix/GSM3072013_y925_WT_BrdU.txt , bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt, bias_matrix/GSM3072030_y1436_dpb3_BrdU.txt , bias_matrix/GSM3072038_y1439_dpb3_H3K4me3_eSPAN.txt' -p bias,bias,bias,bias -o 'all_bias_group.ppt' -g BrdU,H3K4me3,BrdU,H3K4me3 --interval=T`
