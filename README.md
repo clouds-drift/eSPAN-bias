@@ -5,7 +5,7 @@ eSPAN (enrichment and sequencing of protein associated nascent DNA) method is ab
 
 ## Requirements
 * deeptools
-* R packages: "openxlsx", "GenomicRanges", "Rsamtools", "rtracklayer", "reshape2", "zoo", "ggplot2","plyr"
+* R packages: "openxlsx", "GenomicRanges", "Rsamtools", "rtracklayer", "reshape2", "zoo", "ggplot2","plyr","pheatmap"
 * R packages needed for 'pptx' output: "officer","rvg"
 
 ## Usage
