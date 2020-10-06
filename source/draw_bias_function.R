@@ -5,7 +5,7 @@ for(p in required.pack){
 }
 
 
-##need improve:sig.class when file names are null; ppt and pdf
+##export ppt or pdf
 draw_profiles=function(sig.file, graph.file, sig.class=c(),group=c(),interval=F, 
                        xMin=NA,xMax=NA,yMin=NA,yMax=NA, xlab="Relative position", ylab="Log2 ratio of Watson/Crick",
                        x.breaks=NA,y.breaks=NA,width=NULL,height=NULL,fontsize=12,legend.ncol=2){
@@ -76,11 +76,12 @@ draw_profiles=function(sig.file, graph.file, sig.class=c(),group=c(),interval=F,
       geom_vline(xintercept = c(0), linetype="dashed", color = "black", size=1)+
       geom_hline(yintercept = c(0), color="black", size=1)+
       scale_y_continuous(limits = c(ymin,ymax))+
-      scale_x_continuous(limits = c(xmin,xmax),expand=expansion(mult=0))+
+      scale_x_continuous(limits = c(xmin,xmax),expand=c(0,0))+
       labs(x=xlab, y=ylab,title=graph.title)
     if(interval=="TRUE"){
       sig.plot=sig.plot+geom_ribbon(aes(ymin=sig.df[,y.var]-sig.df[,"se"],ymax=sig.df[,y.var]+sig.df[,"se"],fill=sig.df[,"Group"]),alpha=0.5)+
-        scale_fill_manual(name="type", breaks=levels(sig.df[,"Group"]), values = c("#0073C2FF","#EFC000FF","red","#009E73","orange","purple", "grey","black"))
+        scale_fill_manual(name="type", breaks=levels(sig.df[,"Group"]), expand=c(0,0),
+                          values = c("#0073C2FF","#EFC000FF","red","#009E73","orange","purple", "grey","black"))
     }
     if(!is.na(y.breaks)){
       y.breaks=as.numeric(y.breaks)
@@ -88,7 +89,7 @@ draw_profiles=function(sig.file, graph.file, sig.class=c(),group=c(),interval=F,
     }
     if(!is.na(x.breaks)){
       x.breaks=as.numeric(x.breaks)
-      sig.plot=sig.plot+scale_x_continuous(limits = c(xmin,xmax),breaks = seq(xmin*10e4,xmax*10e4,x.breaks*10e4)/10e4)
+      sig.plot=sig.plot+scale_x_continuous(limits = c(xmin,xmax),breaks = seq(xmin*10e4,xmax*10e4,x.breaks*10e4)/10e4,expand=c(0,0))
     }
     
     return(sig.plot)
@@ -162,7 +163,7 @@ graph2pptx=function(g2plot.list,graph.file,width=NULL,height=NULL,picture=F){
 }
 
 ##Description:
-##  Draw heatmap for aligned reads density.
+##  Draw heatmap for aligned reads density. Export to ppt, pdf or a folder for jpeg.
 ##Args:
 ##  mat.file, files of reads density matrix.
 ##  graph.dir, output dir
