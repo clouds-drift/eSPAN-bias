@@ -36,7 +36,7 @@ draw_profiles=function(sig.file, graph.file, sig.class=c(),group=c(),interval=F,
       }else if(grepl("\\.xlsx$", one.file)){
         one.df=read.xlsx(one.file)
       }else{
-        one.df=read.table(one.file, header = T, sep="\t", quote = "\"", stringsAsFactors = F)
+        one.df=read.table(one.file, header = T, sep="\t", quote = "\"", stringsAsFactors = F,check.names = F)
       }
       ##group the profiles
       one.df=cbind(one.df,File=names(one.file),stringsAsFactors=F)

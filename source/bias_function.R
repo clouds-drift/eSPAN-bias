@@ -23,7 +23,7 @@ Bias_in_smooth=function(w,c,reference.point,method="partition",
   names(mat.file)=bias.mat.df$Sample
   cat("\nsmooth bias matrix...\n")
   bias.smooth.df=cal_nuc_profile(mat.file, outdir=bias.dir, bs=sm,fill=NA)##smooth profile with neighbour n bins
-  write.xlsx(bias.smooth.df, sum.mat.file)
+  write.xlsx(bias.smooth.df, sum.mat.file,overwrite=T)
   sapply(bias.mat.file,function(x){if(file.exists(x)) file.remove(x)})
   
   return(bias.smooth.df)
@@ -151,20 +151,21 @@ read_deeptools_mat=function(sample, infile, outdir, flanking, bs, force=F){
   bin.num=ceiling((flanking[2]-flanking[1]) / bs)
   position=seq(flanking[1], flanking[1]+(bin.num-1)*bs, by = bs)
   
-  mat.file=paste(outdir,"/", sample, ".xlsx", sep="")
+  mat.file=paste(outdir,"/", sample, ".mat", sep="")
   #paste(outdir, "/", sub("\\.gz$", ".xlsx", basename(infile)), sep="")
   #avg.file=paste(outdir, "/", sub("\\.mat\\.gz$", ".xlsx", basename(infile)), sep="")
   result=c()
   for(i in 1:length(sample)){
     if(!file.exists(mat.file[i])|force){
-    mat=read.table(gzfile(infile[i]), header = F, sep="\t", quote = "\"", skip=1, stringsAsFactors = F)
+    mat=read.table(gzfile(infile[i]), header = F, sep="\t", quote = "\"", skip=1, stringsAsFactors = F,check.names = F)
     #mat[is.na(mat)]=0
     rownames(mat)=mat[,4]
     mat=mat[, 7:ncol(mat)]
     colnames(mat)=position
     #avg=apply(mat, 2, mean)
     #avg.df=data.frame(aligned_position=names(avg),average_signal=avg, stringsAsFactors = F)
-    write.xlsx(mat, mat.file[i], col.names=T, row.names=T,keepNA=T)
+    #write.xlsx(mat, mat.file[i], col.names=T, row.names=T,keepNA=T,overwrite=T)
+    write.table(mat,mat.file[i],quote = F,sep="\t",row.names = T,col.names = T)
     #write.xlsx(avg.df, avg.file[i])
     }
     temp.df=data.frame(Sample=sample[i], Mat=mat.file[i], stringsAsFactors = F)
@@ -193,7 +194,7 @@ cal_nuc_profile=function(mat.file, outdir, bs=5,fill=NA,sort=F){
         sample=names(mat.file)[[i]]
         #sample=sub("(\\.mat)*\\.xlsx$", "", basename(mat.file[[i]]))
       }else{
-        mat=read.table(mat.file[[i]], header = T, sep="\t", quote = "\"", stringsAsFactors = F)
+        mat=read.table(mat.file[[i]], header = T, sep="\t", quote = "\"", stringsAsFactors = F,check.names = F)
         sample=names(mat.file)[[i]]
         #sample=sub("\\..*$", "", basename(mat.file[[i]]))
       }
@@ -220,8 +221,10 @@ cal_nuc_profile=function(mat.file, outdir, bs=5,fill=NA,sort=F){
       colnames(mat.smooth)=colnames(mat)
       mat=mat.smooth
     }
-    mat.smooth.file=paste(outdir,"/", sample, ".xlsx", sep="")
-    write.xlsx(mat, mat.smooth.file, colNames=T, rowNames=T,keepNA=T)
+    mat.smooth.file=paste(outdir,"/", sample, ".mat", sep="")
+      #paste(outdir,"/", sample, ".xlsx", sep="")
+    #write.xlsx(mat, mat.smooth.file, colNames=T, rowNames=T,keepNA=T)
+    write.table(mat,mat.smooth.file,quote = F,sep="\t",row.names = T,col.names = T)
     
     avg=apply(mat, 2, function(x){mean(x,na.rm=T)})
     avg.df=data.frame(aligned_position=names(avg),average_signal=avg, stringsAsFactors = F)
@@ -265,7 +268,7 @@ Bias_normalize=function(mat.file,sample.name,
   adj.df=adjust_signals(sample.pair, mat.file, adjbias.dir)
   ##merge info
   adj.df=merge(adj.df, sample.pair)
-  write.xlsx(adj.df, sum.adjmat.file)
+  write.xlsx(adj.df, sum.adjmat.file,overwrite=T)
   
   return(sample.pair)
 }
@@ -328,7 +331,8 @@ mat_operation=function(target.mat, control.mat, outdir,MODE="SUB",fill=0,ps.coun
   adj.mat=c()
   for(i in 1:length(target.mat)){
     cat(i, "operating MODE=",MODE, target.mat[i], "with", control.mat[i], "\n")
-    outfile=paste(outdir, "/", sub("(\\.xlsx)*$", "_adjusted.mat.xlsx", basename(target.mat[i])), sep="")
+    outfile=paste(outdir, "/", sub("(\\.[^.]*)*$", "_adjusted.mat", basename(target.mat[i])), sep="")
+      #paste(outdir, "/", sub("(\\.xlsx)*$", "_adjusted.mat.xlsx", basename(target.mat[i])), sep="")
     if(file.exists(target.mat[i]) & file.exists(control.mat[i])){
       if(grepl("\\.xlsx$", target.mat[i])){
         t.df=read.xlsx(target.mat[i], colNames = T, rowNames = T)
@@ -348,7 +352,8 @@ mat_operation=function(target.mat, control.mat, outdir,MODE="SUB",fill=0,ps.coun
       }else if(MODE=="FC"){
         adj.df=as.matrix(t.df)/(as.matrix(c.df)+ps.count)
       }
-      write.xlsx(adj.df, file=outfile, colNames=T, rowNames=T,keepNA=T)
+      #write.xlsx(adj.df, file=outfile, colNames=T, rowNames=T,keepNA=T)
+      write.table(adj.df, file=outfile,quote = F,sep="\t",row.names = T,col.names = T)
       names(outfile)=names(target.mat[i])
       adj.mat=c(adj.mat, outfile)
     }
