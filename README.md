@@ -63,7 +63,7 @@ Options:
 ##### Output:
 *bw_bias/GSM3072025_y929_WT_H3K4me3_eSPAN_partion.bw*,  genomwide bias signal.
 
-*bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.xlsx*,    bias matrix surrounding the G1 origins.
+*bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.mat*,    bias matrix surrounding the G1 origins.
 
 *bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.txt*,     average bias profile surrounding the G1 origins.
 
@@ -117,15 +117,15 @@ Options:
                 Summary of output normalized matrix file. (Optional, default='my_norm_bias_mat.xlsx')
 ```
 
-`Rscript normalize_bias.R -i 'bias_matrix/GSM3072013_y925_WT_BrdU.xlsx , bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.xlsx ' 
+`Rscript normalize_bias.R -i 'bias_matrix/GSM3072013_y925_WT_BrdU.mat , bias_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN.mat ' 
 -c BrdU,H3K4me3_eSPAN --control=BrdU --target=H3K4me3_eSPAN`
 
 ##### Output:
-*bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.xlsx*, Normalized bias matrix.
+*bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat*, Normalized bias matrix.
 
 *bias_norm_matrix/GSM3072025_y929_WT_H3K4me3_eSPAN_adjusted.mat.txt*, Normalized bias profile.
 
-*my_norm_bias_mat.xlsx*, Summary of the normalization.
+*my_norm_bias.mat*, Summary of the normalization.
 
 ##### Details:
 Normalize the eSPAN bias against the BrdU-IP-ssSeq bias.
