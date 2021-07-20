@@ -5,8 +5,8 @@ eSPAN (enrichment and sequencing of protein associated nascent DNA) method is ab
 
 ## Requirements
 * deeptools
-* R packages: "openxlsx", "GenomicRanges", "Rsamtools", "rtracklayer", "reshape2", "zoo", "ggplot2","plyr","pheatmap","RColorBrewer"
-* R packages needed for 'pptx' output: "officer","rvg"
+* R packages: "openxlsx_4.2.4", "GenomicRanges_1.40.0", "Rsamtools_2.4.0", "rtracklayer_1.48.0", "reshape2_1.4.4", "zoo_1.8", "ggplot2_3.3.2","plyr_1.8.6","pheatmap_1.0.12","RColorBrewer_1.1"
+* R packages needed for 'pptx' output: "officer_0.3.14","rvg_0.2.5"
 
 ## Usage
 The eSPAN-bias scripts provides the analysis of bias calculation based on bigwig files:
