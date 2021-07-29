@@ -313,7 +313,7 @@ adjust_signals=function(sample.pair, mat.file, outdir,MODE="SUB",fill=0,ps.count
     }
     sig=apply(mat, 2, function(x){mean(x,na.rm=T)})
     result=data.frame(aligned_position=colnames(mat), average_signal=sig, stringsAsFactors = F);
-    outfile=sub("(\\.xlsx)*$", ".txt", x);
+    outfile=sub("(\\..+)$", ".txt", x);
     names(outfile)=names(x);
     write.table(result, outfile, quote = F, sep="\t", row.names = F, col.names = T);
     return(outfile)})

@@ -1,7 +1,11 @@
 required.pack = c("openxlsx","ggplot2","plyr","pheatmap","RColorBrewer")
 for(p in required.pack){
   sig=suppressMessages(require(p,character.only = TRUE))
-  if(!sig){stop(paste("package",p,"needed!"))}
+  #if(!sig){stop(paste("package",p,"needed!"))}
+  if(!sig){
+    cat("install",p,"...\n")
+    install.packages(p)
+  }
 }
 
 
@@ -192,7 +196,7 @@ draw_heatmap=function(mat.file, graph.file,
           plot.mat=read.xlsx(mat.file[[i]],colNames = T, rowNames = T)
           plot.name=sub("(\\.mat)*\\.xlsx$", "", basename(mat.file[[i]]))
         }else{
-          plot.mat=read.table(mat.file[[i]], header = T, sep="\t", quote = "\"", stringsAsFactors = F)
+          plot.mat=read.table(mat.file[[i]], header = T, sep="\t", quote = "\"", stringsAsFactors = F,check.names=F)
           plot.name=sub("\\..*$", "", basename(mat.file[[i]]))
         }
       }else{
