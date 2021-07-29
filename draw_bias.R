@@ -68,6 +68,7 @@ if(is.null(opt$group)){group=NULL}else{group=unlist(strsplit(opt$group,","))}
 
 
 cat("Draw bias in smooth line...\n")
+sig.file=sub("\\..*$","\\.txt",sig.file)
 draw_profiles(sig.file=sig.file, graph.file=graph.file, 
               sig.class=page, 
               group=group,
@@ -78,7 +79,7 @@ draw_profiles(sig.file=sig.file, graph.file=graph.file,
               yMin=opt$ymin,yMax=opt$ymax,y.breaks=opt$ybreaks,
               xMin=opt$xmin,xMax=opt$xmax,x.breaks=opt$xbreaks)
 cat("Draw heatmap...\n")
-mat.file=sub("\\.txt$","\\.xlsx",sig.file)
+mat.file=sub("\\.txt$","\\.mat",sig.file)
 heatmap.file=sub("\\..+$","_heatmap.pdf",graph.file)
 draw_heatmap(mat.file=mat.file,graph.file= heatmap.file, 
                       zMin=-1, zMax=1,smooth=NA,fill=NA, my.color=c("blue","white","red"), ncolor=100, 

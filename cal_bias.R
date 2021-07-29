@@ -1,7 +1,21 @@
-required.pack = c("getopt","optparse")
+required.pack = c("getopt","optparse","openxlsx","reshape2","zoo","ggplot2","plyr","pheatmap","RColorBrewer","officer","rvg")
 for(p in required.pack){
   sig=suppressMessages(require(p,character.only = TRUE,quietly = T))
-  if(!sig){stop(paste("package",p,"needed!"))}
+  #if(!sig){stop(paste("package",p,"needed!"))}
+  if(!sig){
+    cat("install",p,"...\n")
+    install.packages(p)
+  }
+}
+bioc.pack=c("GenomicRanges","Rsamtools","rtracklayer")
+for(p in bioc.pack){
+  sig=suppressMessages(require(p,character.only = TRUE,quietly = T))
+  if(!sig){
+    cat("install",p,"...\n")
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+    BiocManager::install(p)
+  }
 }
 opt.p=OptionParser(description="Calculate read coverage bias between plus and minus strands of bigwig files.eSPAN experiments will generate strand-specific DNA libraries.Separated read coverage on plus and minus strands can be used for bias calculation.")
 opt.p=add_option(opt.p,c("--watson","-w"),type="character",
@@ -73,6 +87,6 @@ force=opt$force
 cat("Cal bias in smooth line...\n")
 bias.smooth.df=Bias_in_smooth( w=w,c=c,reference.point=reference.point,method=method,
             bw.bias.dir=bw.bias.dir,bias.dir=bias.dir,sum.mat.file=sum.mat.file,
-            flank=flank,bin=bin,sm=sm,N_thread=N_thread,threshold=threshold,force=force)
+            flank=c(flank[1],flank[2]+bin),bin=bin,sm=sm,N_thread=N_thread,threshold=threshold,force=force)
 
 
