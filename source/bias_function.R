@@ -58,7 +58,7 @@ cal_partition_bw=function(w, c, outdir,threshold=10, force=F,method="partition")
       if(grepl("partition",method,ignore.case = T)){
         bias.cov=(abs(w.cov)-abs(c.cov)) / (abs(w.cov)+abs(c.cov))
       }else if(grepl("log",method,ignore.case = T)){
-        bias.cov=log2( abs(w.cov) / (abs(c.cov)+0.1) )
+        bias.cov=log2( abs(w.cov) / (abs(c.cov)+0.00001) )
       }else{
         stop("unknow method:",method,"!\n")
       }
