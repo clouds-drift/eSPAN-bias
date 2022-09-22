@@ -209,4 +209,6 @@ Group the profiles and plot the average signal and variation.
 | :--: | :--: |
 | **Bias for each sample** | **Bias for BrdU group and eSPAN group** |
 
-
+# Citation:
+* [DNA polymerase α interacts with H3-H4 and facilitates the transfer of parental histones to lagging strands](https://pubmed.ncbi.nlm.nih.gov/32923642/), Science Advances, 2020
+* [Efficient and strand-specific profiling of replicating chromatin with enrichment and sequencing of protein-associated nascent DNA in mammalian cells](https://pubmed.ncbi.nlm.nih.gov/33911256/), Nature Protocols, 2021 
