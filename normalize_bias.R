@@ -9,21 +9,21 @@ opt.p=add_option(opt.p,c("--matrix","-i"),type="character",
 \t\tPut all eSPAN and BrdU samples' matrix files here and join them by ','.")
 opt.p=add_option(opt.p,c("--class","-c"),type="character",
                  help="Class of samples,such as 'brdu','H3K4me3_eSPAN' or 'H3K56ac_eSPAN'.(Required)
-\t\tIt's used to pair samples for normalization. Length of sample 'class' should be same as matrix files and joined by ','.")
+\t\tIt's used to pair samples for normalization. Length of sample 'class' should be the same length of matrix files and joined by ','.")
 opt.p=add_option(opt.p,c("--condition", "-C"),type="character", default="",
                  help="Description of sample conditions, such as date, MNase, Sonication, mutant strains. For example, '2020_MNase_dpb3'. (Optional)
 \t\tSamples with exactly same 'condition' and matched 'class' will be paired together for normalization. 
 \t\tIf not provied, all samples will be considered as same condition. Please check generated sample pair list to make sure normalizaton is as expected.
-\t\tLength of 'condition' should be same as matrix files and joined by ','.")
+\t\tLength of 'condition' should be the same length of matrix files and joined by ','.")
 opt.p=add_option(opt.p,c("--target"),type="character",default="H3K4me3_eSPAN, H3K56ac_eSPAN",
-                 help="The target class for pairing samples and should be words selected from 'Class'. (Optional, default='H3K4me3_eSPAN, H3K56ac_eSPAN') 
-\t\tLength of 'target' should be same as 'control'.")
+                 help="The target class is for pairing samples and should be words selected from 'Class'. (Optional, default='H3K4me3_eSPAN, H3K56ac_eSPAN') 
+\t\tLength of 'target' should be the same length as 'control'. In general, you don't need to change it.")
 opt.p=add_option(opt.p,c("--control"),type="character",default="BrdU, BrdU",
                  help="The control class for pairing samples and should be words selected from 'Class'. (Optional, default='BrdU, BrdU')
-\t\tLength of 'control' should be same as 'target'.")
+\t\tLength of 'control' should be the same length as 'target'. In general, you don't need to change it.")
 opt.p=add_option(opt.p,c("--label","-l"),type="character",
                  help=c("Sample name labeling for the bias matrix file. (Optional)
-\t\tIf not provided, file name will be used. Length of labels should be same as matrix files and joined by ','."))
+\t\tIf not provided, file name will be used. Length of labels should be the same length as matrix files and joined by ','."))
 opt.p=add_option(opt.p,c("--normMatrix","-o"),type="character",default="bias_norm_matrix",
                  help="Output folder for normalized bias matrix. They can be used for bias plot. (Optional, default='bias_norm_matrix')")
 opt.p=add_option(opt.p,c("--sumMatFile", "-s"),type="character",default="my_norm_bias_mat.xlsx",
