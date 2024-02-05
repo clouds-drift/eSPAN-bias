@@ -29,7 +29,7 @@ opt.p=add_option(opt.p,c("--reference_point","-r"),type="character",
                  Default is the yeast G1 replication origins.")
 opt.p=add_option(opt.p,c("--method","-m"),type="character",
                  help="Method for bias calculation, should be 'partition' or 'log'. (Optional, default='partition')
-                 'partition' = (w+c) / (w-c)
+                 'partition' = (w-c) / (w+c)
                  'log' = log2 (w / c)", default="partition")
 opt.p=add_option(opt.p,c("--bw"),type="character",
                  help="Output folder for bigwig signals of genome-wide bias.It can be loaded by IGV to check individual locus. (Optional, default='bw_bias')",
