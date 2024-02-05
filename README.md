@@ -37,7 +37,7 @@ Options:
                 Default is the yeast G1 replication origins.
         -m METHOD, --method=METHOD
                 Method for bias calculation, should be 'partition' or 'log'. (Optional, default='partition')
-                'partition' = (w+c) / (w-c)
+                'partition' = (w-c) / (w+c)
                 'log' = log2 (w / c)
         --bw=BW
                 Output folder for bigwig signals of genome-wide bias.It can be loaded by IGV to check individual locus. (Optional, default='bw_bias')
@@ -72,7 +72,7 @@ Options:
 
 | <img src="./graph/partition.jpg" width="300" height="300"/> | <img src="./graph/logRatio.jpg" width="300" height="300" /> |
 | :--: | :--: |
-| **(W+C)/(W-C)** | **log2(W/C)** |
+| **(W-C)/(W+C)** | **log2(W/C)** |
 
 * ‘--threshold’ can filter unreliable regions with low coverage by setting a proper coverage threshold and please set it based on your sequencing depth.
 
@@ -96,21 +96,21 @@ Options:
                 Put all eSPAN and BrdU samples' matrix files here and join them by ','.
         -c CLASS, --class=CLASS
                 Class of samples,such as 'brdu','H3K4me3_eSPAN' or 'H3K56ac_eSPAN'.(Required)
-                It's used to pair samples for normalization. Length of sample 'class' should be same as matrix files and joined by ','.
+                It's used to pair samples for normalization. Length of sample 'class' should be same as length of matrix files and joined by ','.
        -C CONDITION, --condition=CONDITION
                 Description of sample conditions, such as date, MNase, Sonication, mutant strains. For example, '2020_MNase_dpb3'. (Optional)
-                Samples with exactly same 'condition' and matched 'class' will be paired together fornormalization.
+                Samples with exactly same 'condition' and matched 'class' will be paired together for normalization.
                 If not provied, all samples will be considered as same condition. Please check generated sample pair list to make sure normalizaton is as expected.
-                Length of 'condition' should be same as matrix files and joined by ','.
+                Length of 'condition' should be same as the length of matrix files and joined by ','.
         --target=TARGET
-                The target class for pairing samples and should be words selected from 'Class'. (Optional, default='H3K4me3_eSPAN, H3K56ac_eSPAN')
-                Length of 'target' should be same as 'control'.
+                The target class is for pairing samples and should be the words selected from 'Class'. (Optional, default='H3K4me3_eSPAN, H3K56ac_eSPAN')
+                Length of 'target' should be the same length of 'control'. In general, you don't change it.
         --control=CONTROL
-                The control class for pairing samples and should be words selected from 'Class'. (Optional, default='BrdU, BrdU')
-                Length of 'control' should be same as 'target'.
+                The control class is for pairing samples and should be the words selected from 'Class'. (Optional, default='BrdU, BrdU')
+                Length of 'control' should be the same length of 'target'. In general, you don't change it.
         -l LABEL, --label=LABEL
                 Sample name labeling for the bias matrix file. (Optional)
-                If not provided, file name will be used. Length of labels should be same as matrix files and joined by ','.
+                If not provided, file name will be used. Length of labels should be same length of matrix files and joined by ','.
         -o NORMMATRIX, --normMatrix=NORMMATRIX
                 Output folder for normalized bias matrix. They can be used for bias plot. (Optional, default='bias_norm_matrix')
         -s SUMMATFILE, --sumMatFile=SUMMATFILE
